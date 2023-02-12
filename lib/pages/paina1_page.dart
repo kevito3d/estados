@@ -1,4 +1,8 @@
+import 'package:estados/models/usuario_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:estados/bloc/usuario/usuario_cubit.dart';
 
 class Pagina1Page extends StatelessWidget {
   const Pagina1Page({super.key});
@@ -8,18 +12,64 @@ class Pagina1Page extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Pagina 1'),
+          // actions: [
+          //   IconButton(
+          //       onPressed: () {
+          //         context.read<UsuarioCubit>().borrarUsuario();
+          //       },
+          //       icon: const Icon(Icons.delete))
+          // ],
         ),
-        body: const InformacionUsuario(),
+        body: const BodyScaffold(),
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.navigate_next),
             onPressed: () => Navigator.pushNamed(context, 'pagina2')));
   }
 }
 
+class BodyScaffold extends StatelessWidget {
+  const BodyScaffold({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UsuarioCubit, UsuarioState>(
+      builder: (_, state) {
+        switch (state.runtimeType) {
+          case UsuarioInit:
+            return const Center(
+              child: Text('No existe usuario'),
+            );
+          case UsuarioActivo:
+            return InformacionUsuario(
+                usuario: (state as UsuarioActivo).usuario);
+          default:
+            return const Center(
+              child: Text('Estado no reconocido'),
+            );
+        }
+
+        // if (state is UsuarioInit) {
+        //   return const Center(
+        //     child: Text('No existe usuario'),
+        //   );
+        // } else if (state is UsuarioActivo) {
+        //   return InformacionUsuario(usuario: state.usuario);
+        // }
+        // return const Center(
+        //   child: Text('Estado no reconocido'),
+        // );
+      },
+    );
+  }
+}
+
 class InformacionUsuario extends StatelessWidget {
   const InformacionUsuario({
     super.key,
+    required this.usuario,
   });
+
+  final Usuario usuario;
 
   @override
   Widget build(BuildContext context) {
@@ -30,35 +80,28 @@ class InformacionUsuario extends StatelessWidget {
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[
-         
-          Text(
+        children: <Widget>[
+          const Text(
             'General',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          Divider(),
-
+          const Divider(),
           ListTile(
-            title: Text('Nombre:'),
+            title: Text('Nombre: ${usuario.nombre}'),
           ),
           ListTile(
-            title: Text('Edad:'),
+            title: Text('Edad: ${usuario.edad}'),
           ),
-
-          Text(
+          const Text(
             'Profesiones',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          Divider(),
-
-          ListTile(
-            title: Text('Profesion 1:'),
-          ),
-          ListTile(
-            title: Text('Profesion 2:'),
-          ),
-
-          
+          const Divider(),
+          ...usuario.profesion
+              .map((e) => ListTile(
+                    title: Text(e),
+                  ))
+              .toList()
         ],
       ),
     );
