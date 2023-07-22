@@ -13,7 +13,7 @@ class UsuarioCubit extends Cubit<UsuarioState> {
     final currentState = state;
 
     if (currentState is UsuarioActivo) {
-      final nuevoUsuario = currentState.usuario.copyWith(edad: 20);
+      final nuevoUsuario = currentState.usuario.copyWith(edad: 25);
       emit(UsuarioActivo(nuevoUsuario));
     }
   }
@@ -22,10 +22,8 @@ class UsuarioCubit extends Cubit<UsuarioState> {
     final currentState = state;
 
     if (currentState is UsuarioActivo) {
-      final nuevoUsuario = currentState.usuario.copyWith(profesion: [
-        ...currentState.usuario.profesion,
-        'Profesion ${currentState.usuario.profesion.length + 1}'
-      ]);
+      final nuevoUsuario = currentState.usuario.copyWith(
+          profesion: [...currentState.usuario.profesion, 'Profesion ${currentState.usuario.profesion.length + 1}']);
       emit(UsuarioActivo(nuevoUsuario));
     }
   }

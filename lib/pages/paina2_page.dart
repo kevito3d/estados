@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:estados/bloc/usuario/usuario_cubit.dart';
 import 'package:estados/models/usuario_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Pagina2Page extends StatelessWidget {
   const Pagina2Page({super.key});
@@ -29,22 +28,18 @@ class Pagina2Page extends StatelessWidget {
             MaterialButton(
               onPressed: () {
                 usuarioCubit.activarUsuario(
-                      Usuario(
-                          nombre: 'Fernando',
-                          edad: 35,
-                          profesion: ['Desarrollador', 'Ingeniero']),
-                    );
+                  Usuario(nombre: 'Kevito3d', edad: 35, profesion: ['Desarrollador', 'Ingeniero']),
+                );
               },
               color: Colors.blue,
               child: const Text(
-                'estableser usuario',
+                'Estableser usuario',
                 style: TextStyle(color: Colors.white),
               ),
             ),
             MaterialButton(
               onPressed: () {
                 usuarioCubit.cambiarEdad();
-              
               },
               color: Colors.blue,
               child: const Text(
@@ -56,10 +51,9 @@ class Pagina2Page extends StatelessWidget {
               onPressed: () {
                 usuarioCubit.agregarProfesion();
               },
-              
               color: Colors.blue,
               child: const Text(
-                'Estableser profesión',
+                'Estableser profesión nueva',
                 style: TextStyle(color: Colors.white),
               ),
             ),
